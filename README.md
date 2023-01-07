@@ -1,1 +1,1 @@
-# wedding.github.io
+# ismail-personal.github.io
