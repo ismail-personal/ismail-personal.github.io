@@ -219,54 +219,54 @@
     <div class="row ww-rsvp-form">
       <div class="col-md-10">
         <div class="card-body">
-          <form action="https://formspree.io/example@email.com" method="POST">
-            <div class="row">
-              <div class="col md-6 pb-3">
-                <div class="form-group">
-                  <label for="name-input">Nama*</label>
-                  <input class="form-control" id="name-input" type="text" placeholder="Nama Anda" name="name" required="required"/>
-                </div>
-              </div>
-              <div class="col-md-6 pb-3">
-                <div class="form-group">
-                  <label for="address-input">Alamat*</label>
-                  <input class="form-control" id="address-input" type="text" placeholder="Alamat Anda" name="address" required="required"/>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col md-6 pb-3">
-                <div class="form-group">
-                  <label for="phone-input">No. HP/WA*</label>
-                  <input class="form-control" id="phone-input" type="tel" placeholder="+62 8xxxxxxxxxx" name="phone" required="required"/>
-                </div>
-              </div>
-              <div class="col-md-6 pb-3">
-                <div class="form-group">
-                  <label for="events-input">Saya Hadir di...*</label>
-                  <select class="form-control" id="events-input" name="events" required="required">
-                    <option selected disabled>--Pilih Acara--</option>
-                    <option value="wedding-ceremony">Akad Nikah</option>
-                    <option value="reception-party">Resepsi</option>
-                    <option value="all-event">Akad dan Resepsi</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="image-input">Unggah Foto Saat di Acara 😉*</label>
-                  <input class="form-control" id="image-input" type="file" accept="image/*" name="image" required="required"/>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col text-center">
-                <button class="btn btn-primary btn-submit" type="submit">Kirim</button>
-              </div>
-            </div>
-          </form>
+          <form name="wedding-form">
+                                    <div class="row">
+                                        <div class="col md-6 pb-3">
+                                            <div class="form-group">
+                                                <label for="name-input">Nama*</label>
+                                                <input class="form-control" id="name-input" type="text" placeholder="Nama Anda" name="name" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 pb-3">
+                                            <div class="form-group">
+                                                <label for="address-input">Alamat*</label>
+                                                <input class="form-control" id="address-input" type="text" placeholder="Alamat Tinggal Anda" name="address" required="required" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col md-6 pb-3">
+                                            <div class="form-group">
+                                                <label for="phone-input">No. HP/WA*</label>
+                                                <input class="form-control" id="phone-input" type="tel" placeholder="+62 8xxxxxxxxxx" name="phone" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 pb-3">
+                                            <div class="form-group">
+                                                <label for="events-input">Saya Hadir di...*</label>
+                                                <select class="form-control" id="events-input" name="events" required="required">
+                                                  <option selected disabled>--Pilih Acara--</option>
+                                                  <option value="Akad Nikah">Akad Nikah</option>
+                                                  <option value="Resepsi">Resepsi</option>
+                                                  <!-- <option value="all-event">Akad dan Resepsi</option> -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="image-input">Unggah Foto Saat di Acara 😉*</label>
+                                                <input class="form-control" id="image-input" type="file" accept="image/*" name="image" required="required" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col text-center">
+                                            <button class="btn btn-primary btn-submit" type="submit">Kirim</button>
+                                        </div>
+                                    </div>
+                                </form>
         </div>
       </div>
     </div>
@@ -285,5 +285,43 @@
     <script src="scripts/aos.js?ver=1.1.0"></script>
     <script src="scripts/ekko-lightbox.min.js?ver=1.1.0"></script>
     <script src="scripts/main.js?ver=1.1.0"></script>
+    
+    <script src="sweetalert/sweetalert2.js"></script>
+    <script src="sweetalert/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzQWo40-MV62iieTcL61_2aABvMVERCM3Pv2uAaRE1fCrbBO1wdoqpHReW9XkxRs9Ic/exec'
+        const form = document.forms['wedding-form']
+        const btnSubmit = document.querySelector('.btn-submit')
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+                // ketika tombol submit klik
+                // tampilkan tombol loading hilangkan tombol submit dan 
+                // btnLoading.classList.toggle('d-none')
+            btnSubmit.classList.toggle('d-none')
+            fetch(scriptURL, {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                .then(response => {
+                    // ketika succes tampilkan tombol submit hilangkan tombol loading
+                    // myAlert.classList.toggle('d-none')
+                    btnSubmit.classList.toggle('d-none')
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data berhasil diinput.",
+                        text: "Terima kasih, mohon do'a restu"
+                    })
+
+                    // reset data
+                    form.reset()
+
+                    console.log('Success!', response)
+
+                })
+                .catch(error => console.error('Error!', error.message))
+        })
+    </script>
   </body>
 </html>
