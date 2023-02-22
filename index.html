@@ -33,6 +33,14 @@
         }
       </style>
     </noscript>
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- /Bootstrap -->
+    
   </head>
   <body id="top">
     <header></header>
@@ -263,7 +271,11 @@
                                     </div>
                                     <div class="row">
                                         <div class="col text-center">
-                                            <button class="btn btn-primary btn-submit" type="submit">Kirim</button>
+                                          <button class="btn btn-primary btn-submit" type="submit">Kirim</button>
+                                          <button class="btn btn-primary btn-loading d-none" disabled>
+                                              <span class="spinner-border text-warning spinner-border-sm"></span>
+                                              Sedang Mengirim..
+                                           </button>
                                         </div>
                                     </div>
                                 </form>
@@ -293,12 +305,13 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQWo40-MV62iieTcL61_2aABvMVERCM3Pv2uAaRE1fCrbBO1wdoqpHReW9XkxRs9Ic/exec'
         const form = document.forms['wedding-form']
         const btnSubmit = document.querySelector('.btn-submit')
+        const btnLoading = document.querySelector('.btn-loading')
 
         form.addEventListener('submit', e => {
             e.preventDefault()
                 // ketika tombol submit klik
                 // tampilkan tombol loading hilangkan tombol submit dan 
-                // btnLoading.classList.toggle('d-none')
+            btnLoading.classList.toggle('d-none')
             btnSubmit.classList.toggle('d-none')
             fetch(scriptURL, {
                     method: 'POST',
@@ -307,11 +320,12 @@
                 .then(response => {
                     // ketika succes tampilkan tombol submit hilangkan tombol loading
                     // myAlert.classList.toggle('d-none')
+                    btnLoading.classList.toggle('d-none')
                     btnSubmit.classList.toggle('d-none')
                     Swal.fire({
                         icon: "success",
                         title: "Data berhasil diinput.",
-                        text: "Terima kasih, mohon do'a restu"
+                        text: "Terima kasih, mohon do'a restu 🙏🏻"
                     })
 
                     // reset data
