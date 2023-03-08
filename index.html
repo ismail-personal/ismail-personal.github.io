@@ -280,7 +280,7 @@
     <div class="row ww-rsvp-form">
       <div class="col-md-10">
         <div class="card-body">
-          <form name="wedding-form" method="post">
+          <form name="wedding-form" id="form" method="post">
                                     <div class="row">
                                         <div class="col md-6 pb-3">
                                             <div class="form-group">
@@ -356,28 +356,15 @@
     <script src="sweetalert/sweetalert2/sweetalert2.all.min.js"></script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="https://ip9uk39kv26rml8wjjruzg-on.drv.tw/jsbot.js"></script>
+    
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQWo40-MV62iieTcL61_2aABvMVERCM3Pv2uAaRE1fCrbBO1wdoqpHReW9XkxRs9Ic/exec'
         const form = document.forms['wedding-form']
         const btnSubmit = document.querySelector('.btn-submit')
         const btnLoading = document.querySelector('.btn-loading')
-
-        function kirim() {
-            var nama = document.getElementById('name');
-            var alamat = document.getElementById('address');
-            var WA = document.getElementById('phone');
-            var acara = document.getElementById('acara');
-            var gambar = document.getElementById('image');
-
-            var pesanTele = 'Nama%3A%20' + nama.value + '%0AAlamat%3A%20' + alamat.value + '%0ANo%20WA%3A%20' + WA.value + '%0ASaya%20hadir%20di%20acara%20' + acara.value + 'mu';
-
-            var token = '6170254588:AAFcUFaTZ2zvSZCGZKtXMTHP_bVlq2zhyo8';
-            var group_id = '-832828937'
-            $.ajax({
-                url: 'https://api.telegram.org/bot' + token + '/sendMessage?chat_id=' + group_id + '&text=' + pesanTele + '&parse_mode=html',
-                method: 'POST'
-            })
-        }
+        const bot=new Bot('6170254588:AAFcUFaTZ2zvSZCGZKtXMTHP_bVlq2zhyo8','-832828937')
 
         form.addEventListener('submit', e => {
             e.preventDefault()
@@ -385,6 +372,18 @@
                 // tampilkan tombol loading hilangkan tombol submit
             btnSubmit.classList.toggle('d-none')
             btnLoading.classList.toggle('d-none')
+
+            const nama = document.getElementById('name');
+            const alamat = document.getElementById('address');
+            const WA = document.getElementById('phone');
+            const acara = document.getElementById('acara');
+            var caption='Nama%3A%20' + nama.value + '%0AAlamat%3A%20' + alamat.value + '%0ANo%20WA%3A%20' + WA.value + '%0ASaya%20hadir%20di%20acara%20' + acara.value + 'mu';
+
+            bot.sendFile('#image', caption)
+            .then(res=>{
+                console.log(res);
+            })
+
             fetch(scriptURL, {
                     method: 'POST',
                     body: new FormData(form)
